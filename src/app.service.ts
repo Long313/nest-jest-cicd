@@ -16,4 +16,8 @@ export class AppService {
   async findOne(condition: any): Promise<User> {
     return this.userRepository.findOne({ where: { email: condition } });
   }
+
+  async findOneId(condition: any): Promise<User> {
+    return this.userRepository.findOne({ where: { id: condition } });
+  }
 }
