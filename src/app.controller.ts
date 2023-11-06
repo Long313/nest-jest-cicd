@@ -1,14 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-@Controller('login')
-@ApiTags('') // Đánh dấu tag cho controller
+@Controller('')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/getCat')
-  @ApiOperation({ summary: '' })
+  @Get('')
+  @HttpCode(201)
   getHello(): string {
     return this.appService.getHello();
   }
