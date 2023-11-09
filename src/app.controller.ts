@@ -12,6 +12,9 @@ import { AppService } from './app.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
+import { ApiParam } from '@nestjs/swagger';
+import { RegisterUserDto } from './dto/registerUser.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
 
 @Controller('api')
 export class AppController {
@@ -21,36 +24,30 @@ export class AppController {
   ) {}
 
   @Post('register')
-  async register(
-    @Body('userName') userName: string,
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('language') language: string,
-  ) {
-    const hashedPassword = await bcrypt.hash(password, 12);
+  async register(@Body() createUserDto: RegisterUserDto) {
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
 
     const user = await this.appService.create({
-      userName,
-      email,
+      userName: createUserDto.userName,
+      email: createUserDto.email,
       password: hashedPassword,
-      language,
+      language: createUserDto.language,
     });
-      delete user.password
-      return user;
+    delete user.password;
+    return user;
   }
 
   @Post('login')
   async login(
-    @Body('email') email: string,
-    @Body('password') password: string,
+    @Body() createUserDto: LoginUserDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const user = await this.appService.findOne(email);
+    const user = await this.appService.findOne(createUserDto.email);
     if (!user) {
       throw new BadRequestException('invalid credentials');
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (!(await bcrypt.compare(createUserDto.password, user.password))) {
       throw new BadRequestException('invalid credentials');
     }
 
@@ -70,20 +67,19 @@ export class AppController {
       if (!data) {
         throw new UnauthorizedException();
       }
-      console.log("dataId", data.id);
-      const user = await this.appService.findOneId(data.id)
-      const {password, ... userInfor } = user;
+      console.log('dataId', data.id);
+      const user = await this.appService.findOneId(data.id);
+      const { password, ...userInfor } = user;
       return userInfor;
     } catch (err) {
       throw new UnauthorizedException();
     }
   }
   @Post('logout')
-  async logout( @Res({ passthrough: true }) response: Response,
-  ) {
+  async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('jwt');
     return {
-      message: "success"
-    }
+      message: 'success',
+    };
   }
 }

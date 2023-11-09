@@ -7,8 +7,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin: 'http://localhost:8080',
-    credentials: true,
+    origin: 'http://localhost:3000', // Thay đổi thành nguồn của ứng dụng của bạn
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Nếu bạn sử dụng phiên đăng nhập và cần truy cập cookie
   });
   const options = new DocumentBuilder()
     .setTitle('Galaxy Backend')
@@ -19,7 +20,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-
   await app.listen(8000);
 }
 bootstrap();
