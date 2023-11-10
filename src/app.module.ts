@@ -2,8 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entity/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { UserController } from './modules/user/user.controller';
+import { UserService } from './modules/user/user.service';
+import { User } from './modules/user/user.entity';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthService } from './modules/auth/auth.service';
 
 @Module({
   imports: [
@@ -21,9 +27,11 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule.register({
       secret: 'secret',
       signOptions: { expiresIn: '1d'}
-    })
+    }),
+    AuthModule,
+    UserModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UserController, AuthController],
+  providers: [AppService, UserService, AuthService],
 })
 export class AppModule {}

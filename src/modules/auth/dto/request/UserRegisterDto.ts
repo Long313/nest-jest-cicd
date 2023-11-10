@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNotEmpty,
-  IsEmail,
   MinLength,
-  IsOptional,
   IsPhoneNumber,
+  IsOptional,
+  IsEmail,
 } from 'class-validator';
 import { Trim } from '../../../../decorators/transform.decorators';
 

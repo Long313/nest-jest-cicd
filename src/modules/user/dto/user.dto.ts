@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-import { AbstractDto } from '../../../common/dto/abstract.dto';
-
+import { AbstractDto } from 'src/common/dto/abstract.dto';
 import type { User } from '../user.entity';
 
 export class UserDto extends AbstractDto {
@@ -13,7 +12,7 @@ export class UserDto extends AbstractDto {
 
   @ApiProperty()
   userName: string;
-
+  
   @ApiPropertyOptional()
   role: string;
 

@@ -1,10 +1,12 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { UserRegisterDto } from '../auth/dto/request/UserRegisterDto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserDto } from './dto/user.dto';
 import { generateHash } from 'src/common/utils';
+import { RoleType } from 'src/constants';
+import { UserDto } from './dto/user.dto';
+import { UserLoginDto } from '../auth/dto/request/UserLoginDto';
 
 @Injectable()
 export class UserService {
@@ -13,12 +15,12 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: UserRegisterDto) {
-    let user = await this.findByEmail(createUserDto.email);
+    let user = await this.findUserByEmail(createUserDto.email);
     if (user) {
       throw new ConflictException('User already exists');
     }
-    const hashedPassword = await generateHash(createUserDto.password);
-    user = await this.create({
+    const hashedPassword = generateHash(createUserDto.password);
+    user = this.userRepository.create({
       userName: createUserDto.userName,
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
@@ -27,20 +29,14 @@ export class UserService {
       phone: createUserDto.phone,
       langCode: createUserDto.langCode,
       refreshTokenRevoke: true,
-      role: 'USER',
+      role: RoleType.USER,
     });
     if (!user) {
       throw new ConflictException('User not created');
     }
-
     return new UserDto(user);
   }
-
-  async create(data: object) {
-    return this.userRepository.save(data);
-  }
-
-  async findByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email: email } });
+  async findUserByEmail(condition: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email: condition } });
   }
 }
