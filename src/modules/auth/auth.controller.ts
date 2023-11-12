@@ -43,14 +43,15 @@ export class AuthController {
   async userLogin(
     @Body() userLoginDto: UserLoginDto,
   ): Promise<LoginPayloadDto> {
-    const user = await this.authService.validateUser(userLoginDto);
+    const userEntity = await this.authService.validateUser(userLoginDto);
     const token = await this.authService.createAccessToken({
-      userId: user.id || '',
-      role: user.role,
+      userId: userEntity.id || '',
+      role: userEntity.role,
     })
     const refreshToken = await this.authService.createRefreshToken({
-      userId: user.id || '',
-      role: user.role,
+      userId: userEntity.id || '',
+      role: userEntity.role,
     })
+    return new LoginPayloadDto(userEntity, token, refreshToken)
   } 
 }

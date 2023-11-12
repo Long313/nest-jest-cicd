@@ -4,7 +4,7 @@ import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class AbstractDto {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number | string;
 
   @ApiProperty()
   createdAt: Date;
