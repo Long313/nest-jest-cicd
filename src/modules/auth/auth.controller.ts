@@ -28,6 +28,7 @@ export class AuthController {
   ): Promise<UserDto> {
     try {
       const data = await this.userService.createUser(userRegisterDto);
+      console.log('Data', data);
       return data;
     } catch (error) {
       throw error;
@@ -43,14 +44,26 @@ export class AuthController {
   async userLogin(
     @Body() userLoginDto: UserLoginDto,
   ): Promise<LoginPayloadDto> {
+    //   console.log('userEntity', userLoginDto);
+    //   const userEntity = await this.authService.validateUser(userLoginDto);
+    //   const token = await this.authService.createAccessToken({
+    //     userId: userEntity.id || '',
+    //     role: userEntity.role,
+    //   });
+    //   const refreshToken = await this.authService.createRefreshToken({
+    //     userId: userEntity.id || '',
+    //     role: userEntity.role,
+    //   });
+    //   return new LoginPayloadDto(userEntity, token, refreshToken);
+    // }
     const user = await this.authService.validateUser(userLoginDto);
     const token = await this.authService.createAccessToken({
       userId: user.id || '',
       role: user.role,
-    })
+    });
     const refreshToken = await this.authService.createRefreshToken({
       userId: user.id || '',
       role: user.role,
-    })
-  } 
+    });
+  }
 }

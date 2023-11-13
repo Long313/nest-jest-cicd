@@ -2,9 +2,8 @@ import { AbstractEntity } from 'src/common/abstract.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { RoleType } from 'src/constants';
-@Entity()
+@Entity('user')
 export class User extends AbstractEntity {
-
   @Column()
   @IsNotEmpty()
   @IsString()

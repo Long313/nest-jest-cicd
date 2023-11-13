@@ -10,6 +10,8 @@ import { UserService } from './modules/user/user.service';
 import { User } from './modules/user/user.entity';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
+import { ApiConfigService } from './shared/services';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -32,6 +34,6 @@ import { AuthService } from './modules/auth/auth.service';
     UserModule
   ],
   controllers: [AppController, UserController, AuthController],
-  providers: [AppService, UserService, AuthService],
+  providers: [ConfigService,AppService, UserService,ApiConfigService ,AuthService],
 })
 export class AppModule {}
