@@ -4,7 +4,7 @@ import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class AbstractDto {
   @PrimaryGeneratedColumn()
-  id: number | string;
+  id: number;
 
   @ApiProperty()
   createdAt: Date;
@@ -14,6 +14,7 @@ export class AbstractDto {
 
   constructor(entity: AbstractEntity, options?: { excludeFields?: boolean }) {
     this.id = entity.id;
+    console.log('entity.id', entity.id);
     if (!options?.excludeFields) {
       console.log('entity.createdAt: ', entity.createdAt);
       console.log('entity.updatedAt: ', entity.updatedAt);

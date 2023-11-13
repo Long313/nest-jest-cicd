@@ -33,7 +33,7 @@ export class UserService {
     if (!user) {
       throw new ConflictException('User not created');
     }
-    return new UserDto(user);
+    return await this.userRepository.save(user);
   }
   async findUserByEmail(condition: string): Promise<User> {
     return this.userRepository.findOne({ where: { email: condition } });

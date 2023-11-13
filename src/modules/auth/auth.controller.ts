@@ -10,12 +10,16 @@ import { LoginPayloadDto } from './dto/request/LoginPayloadDto';
 import * as bcrypt from 'bcrypt';
 import { validateHash } from 'src/common/utils';
 import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
+import { Repository } from 'typeorm';
+import { User } from '../user/user.entity';
+
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private readonly userRepository: Repository<User>,
   ) {}
   @Post('register')
   @HttpCode(HttpStatus.OK)
@@ -29,6 +33,8 @@ export class AuthController {
     try {
       const data = await this.userService.createUser(userRegisterDto);
       console.log('Data', data);
+      console.log('JWT_SECRET:', process.env.JWT_EXPIRATION_TIME);
+      console.log('JWT_SECRET:', process.env.JWT_SECRET);
       return data;
     } catch (error) {
       throw error;
@@ -48,11 +54,11 @@ export class AuthController {
     const token = await this.authService.createAccessToken({
       userId: userEntity.id || '',
       role: userEntity.role,
-    })
+    });
     const refreshToken = await this.authService.createRefreshToken({
       userId: userEntity.id || '',
       role: userEntity.role,
-    })
-    return new LoginPayloadDto(userEntity, token, refreshToken)
-  } 
+    });
+    return new LoginPayloadDto(userEntity, token, refreshToken);
+  }
 }

@@ -5,7 +5,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
 export abstract class AbstractEntity {
   @PrimaryGeneratedColumn()
   id: number;

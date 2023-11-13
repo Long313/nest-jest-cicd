@@ -18,7 +18,6 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ApiConfigService,
     ) {}
-
   async validateUser(userLoginDto: UserLoginDto): Promise<UserDto> {
     const user = await this.userService.findUserByEmail(userLoginDto.email);
     let isPasswordValid = await validateHash(

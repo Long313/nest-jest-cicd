@@ -12,6 +12,8 @@ import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { ApiConfigService } from './shared/services';
 import { ConfigService } from '@nestjs/config';
+import { Repository } from 'typeorm';
+import { MY_SECRET_KEY } from './constants';
 
 @Module({
   imports: [
@@ -27,13 +29,20 @@ import { ConfigService } from '@nestjs/config';
     }),
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: 'secret',
-      signOptions: { expiresIn: '1d'}
+      secret: process.env.JWT_SECRET || MY_SECRET_KEY,
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION_TIME || '3600s' },
     }),
     AuthModule,
-    UserModule
+    UserModule,
   ],
   controllers: [AppController, UserController, AuthController],
-  providers: [ConfigService,AppService, UserService,ApiConfigService ,AuthService],
+  providers: [
+    ConfigService,
+    AppService,
+    Repository,
+    UserService,
+    ApiConfigService,
+    AuthService,
+  ],
 })
 export class AppModule {}

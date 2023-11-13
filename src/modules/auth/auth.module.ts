@@ -8,6 +8,7 @@ import { UserController } from '../user/user.controller';
 import { JwtService } from '@nestjs/jwt';
 import { ApiConfigService } from 'src/shared/services';
 import { ConfigService } from '@nestjs/config';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -15,6 +16,7 @@ import { ConfigService } from '@nestjs/config';
   providers: [
     ConfigService,
     AuthService,
+    Repository,
     ApiConfigService,
     UserService,
     JwtService,
