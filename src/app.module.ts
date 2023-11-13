@@ -14,6 +14,7 @@ import { ApiConfigService } from './shared/services';
 import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { MY_SECRET_KEY } from './constants';
+import { UnitModule } from './modules/unit/unit.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { MY_SECRET_KEY } from './constants';
     }),
     AuthModule,
     UserModule,
+    UnitModule,
   ],
   controllers: [AppController, UserController, AuthController],
   providers: [
