@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/request/UserLoginDto';
 import { LoginPayloadDto } from './dto/request/LoginPayloadDto';
 import * as bcrypt from 'bcrypt';
-import { validateHash } from 'src/common/utils';
+import { validateHash } from '../common/utils';
 import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';

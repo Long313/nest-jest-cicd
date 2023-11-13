@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { UserLoginDto } from './dto/request/UserLoginDto';
 import { UserDto } from '../user/dto/user.dto';
-import { validateHash } from 'src/common/utils';
+import { validateHash } from '../common/utils';
 import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
 import { TokenPayloadDto } from './dto/TokenPayloadDto';
 import { TokenType } from 'src/constants';

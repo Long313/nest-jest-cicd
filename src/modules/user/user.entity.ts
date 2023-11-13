@@ -1,4 +1,4 @@
-import { AbstractEntity } from 'src/common/abstract.entity';
+import { AbstractEntity } from '../common/abstract.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { RoleType } from 'src/constants';

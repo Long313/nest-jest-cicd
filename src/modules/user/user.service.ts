@@ -3,7 +3,7 @@ import { UserRegisterDto } from '../auth/dto/request/UserRegisterDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { generateHash } from 'src/common/utils';
+import { generateHash } from '../common/utils';
 import { RoleType } from 'src/constants';
 import { UserDto } from './dto/user.dto';
 import { UserLoginDto } from '../auth/dto/request/UserLoginDto';
