@@ -13,7 +13,6 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
-
   async createUser(createUserDto: UserRegisterDto) {
     let user = await this.findUserByEmail(createUserDto.email);
     if (user) {
@@ -38,5 +37,12 @@ export class UserService {
   }
   async findUserByEmail(condition: string): Promise<User> {
     return this.userRepository.findOne({ where: { email: condition } });
+  }
+
+  async updateRefreshToken(userId: any, isRevoke: boolean) {
+    return this.userRepository.update(
+      { id: userId },
+      { refreshTokenRevoke: isRevoke },
+    );
   }
 }
