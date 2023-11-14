@@ -1,36 +1,39 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { isNil } from 'lodash';
 
 @Injectable()
 export class ApiConfigService {
-    constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {}
 
-    private getNumber(key: string): number {
-        const value = this.get(key);
-        try {
-            return Number(value);
-        } catch {
-            throw new Error(key + 'enviroment variable is not a number');
-        }
+  private getNumber(key: string): number {
+    console.log('before', key);
+    const value = this.get(key);
+    console.log('after', value);
+    try {
+      return Number(value);
+    } catch {
+      throw new Error(key + 'enviroment variable is not a number');
     }
+  }
 
-    private getString(key: string): string {
-        const value = this.get(key);
-        return value.replace(/\\n/g, '\n');
-    }
+  private getString(key: string): string {
+    const value = this.get(key);
+    return value.replace(/\\n/g, '\n');
+  }
 
-    private get(key: string): string {
-        const  value = this.configService.get<string>(key);
-        if(isNil(value)) {
-            throw new Error(key + 'enviroment variable does not set');
-        }
-        return value;
+  private get(key: string): string {
+    if (isNil(key)) {
+      throw new Error(key + 'enviroment variable does not set');
     }
-    get authConfig() {
-        return {
-            jwtExpirationTime: this.getNumber('JWT_EXPIRATION_TIME'),
-            secret: this.getString('JWT_SECRET')
-        }
-    }
- }
+    return key;
+  }
+  get authConfig() {
+    const jwt_secret = process.env.JWT_SECRET;
+    const jwt_expiration_time = process.env.JWT_EXPIRATION_TIME;
+    return {
+      jwtExpirationTime: this.getNumber(jwt_expiration_time),
+      secret: this.getString(jwt_secret),
+    };
+  }
+}
