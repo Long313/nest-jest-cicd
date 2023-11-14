@@ -1,20 +1,6 @@
 import {
-  BadRequestException,
-  UnauthorizedException,
-  Body,
   Controller,
-  Post,
-  Res,
-  Get,
-  Req,
 } from '@nestjs/common';
-import { AppService } from './app.service';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { Response, Request } from 'express';
-import { ApiParam } from '@nestjs/swagger';
-import { RegisterUserDto } from './dto/registerUser.dto';
-import { LoginUserDto } from './dto/loginUser.dto';
 
 @Controller('api')
 export class AppController {

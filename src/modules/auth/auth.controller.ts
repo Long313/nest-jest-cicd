@@ -7,9 +7,6 @@ import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/request/UserLoginDto';
 import { LoginPayloadDto } from './dto/request/LoginPayloadDto';
-import * as bcrypt from 'bcrypt';
-import { validateHash } from '../common/utils';
-import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -32,9 +29,6 @@ export class AuthController {
   ): Promise<UserDto> {
     try {
       const data = await this.userService.createUser(userRegisterDto);
-      console.log('Data', data);
-      console.log('JWT_SECRET:', process.env.JWT_EXPIRATION_TIME);
-      console.log('JWT_SECRET:', process.env.JWT_SECRET);
       return data;
     } catch (error) {
       throw error;

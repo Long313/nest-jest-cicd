@@ -7,9 +7,7 @@ export class ApiConfigService {
   constructor(private configService: ConfigService) {}
 
   private getNumber(key: string): number {
-    console.log('before', key);
     const value = this.get(key);
-    console.log('after', value);
     try {
       return Number(value);
     } catch {

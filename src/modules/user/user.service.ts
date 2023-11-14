@@ -5,8 +5,6 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { generateHash } from '../common/utils';
 import { RoleType } from 'src/constants';
-import { UserDto } from './dto/user.dto';
-import { UserLoginDto } from '../auth/dto/request/UserLoginDto';
 
 @Injectable()
 export class UserService {
@@ -40,7 +38,7 @@ export class UserService {
   }
 
   async updateRefreshToken(userId: any, isRevoke: boolean) {
-    return this.userRepository.update(
+    return await this.userRepository.update(
       { id: userId },
       { refreshTokenRevoke: isRevoke },
     );
